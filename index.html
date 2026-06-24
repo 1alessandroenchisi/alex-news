@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#cc0000">
+<meta name="color-scheme" content="light">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ALEX NEWS">
+<title>ALEX NEWS TODAY</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --red:#cc0000; --grad:linear-gradient(120deg,#ff2e63 0%,#e60023 45%,#ff7a18 100%);
+    --ink:#0c0c0e; --text:#16171b; --muted:#6b7280; --line:#ececf0; --bg:#fafafb; --surface:#fff; --soft:#f4f4f7; --gold:#b8860b;
+    --fd:'Sora',system-ui,sans-serif; --ft:'Inter',-apple-system,system-ui,sans-serif;
+    --r:16px; --r-lg:22px; --r-pill:999px; --ease:cubic-bezier(.4,0,.2,1);
+    --sh1:0 1px 2px rgba(20,20,30,.06); --sh2:0 10px 30px rgba(20,20,40,.12);
+    --tabh:64px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{overscroll-behavior-y:none}
+  body{font-family:var(--ft);background:var(--bg);color:var(--text);line-height:1.45;min-height:100dvh;-webkit-font-smoothing:antialiased;padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);padding-bottom:calc(var(--tabh) + env(safe-area-inset-bottom))}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;touch-action:manipulation}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(204,0,0,.5)}70%{box-shadow:0 0 0 7px rgba(204,0,0,0)}100%{box-shadow:0 0 0 0 rgba(204,0,0,0)}}
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @keyframes mar{0%{transform:translateX(5%)}100%{transform:translateX(-100%)}}
+  .reveal{animation:rise .5s var(--ease) both}
+
+  /* App bar (glass) */
+  .appbar{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.82);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
+  .appbar .row{display:flex;align-items:center;justify-content:space-between;height:56px;max-width:1100px;margin:0 auto;padding:0 16px}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand .mk{background:var(--grad);color:#fff;font-family:var(--fd);font-weight:800;font-size:15px;letter-spacing:.5px;padding:7px 10px;border-radius:10px;line-height:1;box-shadow:var(--sh1)}
+  .brand .nm{font-family:var(--fd);font-weight:800;font-size:15px;letter-spacing:.3px;color:#111}
+  .brand .nm i{display:block;font-style:normal;font-size:9.5px;font-weight:600;letter-spacing:2px;color:var(--muted);margin-top:1px}
+  .acts{display:flex;align-items:center;gap:8px}
+  .iconbtn{display:flex;align-items:center;gap:6px;height:38px;padding:0 12px;border-radius:var(--r-pill);background:var(--soft);font-weight:700;font-size:13px;color:#222;transition:transform .15s var(--ease),background .2s}
+  .iconbtn:active{transform:scale(.95)}
+  .iconbtn.solid{background:var(--grad);color:#fff;box-shadow:var(--sh1)}
+
+  /* Pills */
+  .pills{position:sticky;top:calc(56px + env(safe-area-inset-top));z-index:35;background:rgba(250,250,251,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .pills .scroller{display:flex;gap:8px;overflow-x:auto;padding:10px 16px;max-width:1100px;margin:0 auto;scrollbar-width:none}
+  .pills .scroller::-webkit-scrollbar{display:none}
+  .pill{white-space:nowrap;font-size:13px;font-weight:700;padding:8px 14px;border-radius:var(--r-pill);background:var(--surface);border:1px solid var(--line);color:#333;transition:transform .15s var(--ease),background .2s,color .2s,border-color .2s}
+  .pill:active{transform:scale(.95)}
+  .pill.on{background:var(--grad);color:#fff;border-color:transparent;box-shadow:var(--sh1)}
+
+  /* Live quotes */
+  .tvbar{border-bottom:1px solid var(--line);background:#fff}
+
+  /* Quote banner */
+  .moti{margin:14px 16px 0;max-width:1068px;margin-left:auto;margin-right:auto}
+  .moti .in{background:var(--grad);color:#fff;border-radius:var(--r);padding:14px 16px;display:flex;gap:12px;align-items:center;box-shadow:var(--sh2)}
+  .moti .b{background:rgba(255,255,255,.22);font-weight:800;font-size:10.5px;letter-spacing:1px;padding:5px 9px;border-radius:8px;white-space:nowrap}
+  .moti i{font-style:italic;font-weight:500;font-size:14px;line-height:1.35}
+
+  /* Breaking */
+  .breaking{margin:14px 0 0;background:var(--ink);color:#fff;display:flex;align-items:stretch;overflow:hidden}
+  .breaking .tag{background:var(--red);font-weight:800;font-size:12px;letter-spacing:1px;display:flex;align-items:center;padding:0 14px;white-space:nowrap}
+  .breaking .track{flex:1;overflow:hidden}
+  .breaking .move{display:inline-block;white-space:nowrap;padding:9px 0;font-weight:600;font-size:13.5px;animation:mar 40s linear infinite}
+  .breaking .move a{margin:0 22px;color:#fff}
+
+  /* Hero */
+  .hero{display:block;position:relative;margin:16px 0 4px;border-radius:var(--r-lg);overflow:hidden;min-height:60dvh;color:#fff;box-shadow:var(--sh2)}
+  .hero .bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .6s var(--ease)}
+  .hero .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.55) 55%,rgba(0,0,0,.85))}
+  .hero .in{position:absolute;left:0;right:0;bottom:0;padding:22px}
+  .hero .kw{display:inline-block;background:var(--grad);font-size:10.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:5px 10px;border-radius:8px;margin-bottom:11px}
+  .hero h1{font-family:var(--fd);font-size:30px;line-height:1.08;font-weight:800;letter-spacing:-.5px;text-shadow:0 2px 18px rgba(0,0,0,.45)}
+  .hero p{color:#eaeaea;font-size:15px;margin-top:9px;max-width:680px}
+  .hero .src{margin-top:11px;font-size:11px;color:#ffd34d;letter-spacing:.5px;text-transform:uppercase;font-weight:700}
+  @media(min-width:760px){.hero{min-height:46dvh}.hero h1{font-size:40px}}
+
+  .secttl{font-family:var(--fd);font-size:13px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#111;margin:26px 0 12px;display:flex;align-items:center;gap:9px;scroll-margin-top:118px}
+  .secttl .bar{width:22px;height:4px;border-radius:3px;background:var(--grad)}
+
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.cards{grid-template-columns:1fr}}
+  .card{position:relative;display:block;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh1);transition:transform .22s var(--ease),box-shadow .22s var(--ease)}
+  .card:active{transform:scale(.985)}
+  @media(hover:hover){.card:hover{transform:translateY(-4px);box-shadow:var(--sh2)}}
+  .card .thumb{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--soft)}
+  .card .thumb i{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .5s var(--ease);display:block}
+  @media(hover:hover){.card:hover .thumb i{transform:scale(1.07)}}
+  .card .badge2{position:absolute;left:10px;top:10px;background:rgba(12,12,14,.78);color:#fff;font-size:10px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;padding:4px 9px;border-radius:8px;backdrop-filter:blur(6px)}
+  .shareBtn{position:absolute;right:10px;top:10px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;box-shadow:var(--sh1);transition:transform .15s var(--ease)}
+  .shareBtn:active{transform:scale(.88)}
+  .shareBtn svg{width:16px;height:16px;fill:none;stroke:#16171b;stroke-width:2}
+  .card .cbody{padding:13px 14px 15px}
+  .card .ch{font-family:var(--fd);font-size:16px;font-weight:700;line-height:1.22;color:#121317}
+  .card .cs{font-size:13.5px;color:#5b616e;margin-top:6px}
+  .card .cmore{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;margin-top:10px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  .wrow{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:14px}
+  @media(max-width:900px){.wrow{grid-template-columns:1fr}}
+  .wbox{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:#fff;box-shadow:var(--sh1)}
+  .wbox .wh{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#fff;background:var(--ink);padding:8px 12px}
+
+  .cams{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:760px){.cams{grid-template-columns:1fr 1fr}}
+  .cam{position:relative;display:block;border-radius:var(--r);overflow:hidden;aspect-ratio:16/11;color:#fff;box-shadow:var(--sh1)}
+  .cam i{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .4s var(--ease)}
+  @media(hover:hover){.cam:hover i{transform:scale(1.08)}}
+  .cam .ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.7))}
+  .cam .lab{position:absolute;left:11px;bottom:9px;z-index:2}
+  .cam .lab .n{font-family:var(--fd);font-size:15px;font-weight:700;text-shadow:0 1px 5px rgba(0,0,0,.6)}
+  .cam .lab .t2{font-size:11px;opacity:.92}
+  .cam .badge{position:absolute;right:9px;top:9px;z-index:2;background:var(--red);font-size:9.5px;font-weight:800;padding:3px 7px;border-radius:7px;display:flex;align-items:center;gap:5px}
+  .cam .badge .pd{width:6px;height:6px;border-radius:50%;background:#fff;animation:pulse 1.4s infinite}
+  .cam .play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2}
+  .cam .play span{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.92);color:var(--red);display:flex;align-items:center;justify-content:center;font-size:18px;padding-left:3px}
+
+  .sources{margin-top:6px}
+  .sources .box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+  .sources .links{display:flex;flex-wrap:wrap;gap:9px}
+  .sources .links a{font-size:13px;color:#222;border:1px solid var(--line);background:#fff;padding:6px 12px;border-radius:var(--r-pill);font-weight:600;transition:transform .15s var(--ease),border-color .2s}
+  .sources .links a:active{transform:scale(.95)}
+
+  footer{color:var(--muted);font-size:12px;text-align:center;padding:22px 0 28px}
+  footer b{color:#111;font-family:var(--fd)}
+
+  /* Bottom tab bar */
+  .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:45;height:calc(var(--tabh) + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:rgba(255,255,255,.9);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);border-top:1px solid var(--line);display:flex}
+  .tabbar button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#7a7f8a;font-size:10.5px;font-weight:700;transition:transform .15s var(--ease),color .2s}
+  .tabbar button:active{transform:scale(.9)}
+  .tabbar button.on{color:var(--red)}
+  .tabbar svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+  /* Language bottom sheet */
+  .backdrop{position:fixed;inset:0;z-index:50;background:rgba(10,10,15,.45);opacity:0;visibility:hidden;transition:opacity .25s var(--ease),visibility .25s}
+  .backdrop.open{opacity:1;visibility:visible}
+  .sheet{position:fixed;left:0;right:0;bottom:0;z-index:51;background:#fff;border-radius:22px 22px 0 0;padding:14px 16px calc(20px + env(safe-area-inset-bottom));transform:translateY(110%);transition:transform .32s var(--ease);box-shadow:0 -10px 40px rgba(0,0,0,.2)}
+  .sheet.open{transform:translateY(0)}
+  .sheet .grab{width:42px;height:5px;border-radius:3px;background:var(--line);margin:2px auto 12px}
+  .sheet h4{font-family:var(--fd);font-size:14px;margin-bottom:12px;color:#111}
+  .langs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .langs button{display:flex;align-items:center;justify-content:center;height:48px;border-radius:14px;background:var(--soft);font-weight:700;font-size:14px;color:#222;transition:transform .15s var(--ease),background .2s}
+  .langs button:active{transform:scale(.96)}
+  .langs button.on{background:var(--grad);color:#fff}
+
+  /* Install banner */
+  .install{position:fixed;left:12px;right:12px;bottom:calc(var(--tabh) + env(safe-area-inset-bottom) + 12px);z-index:46;background:var(--ink);color:#fff;border-radius:16px;padding:12px 14px;display:none;align-items:center;gap:12px;box-shadow:var(--sh2)}
+  .install.show{display:flex;animation:rise .4s var(--ease) both}
+  .install .txt{flex:1;font-size:13px}.install .txt b{font-family:var(--fd)}
+  .install .x{font-size:18px;color:#aaa;padding:4px}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+  input,select,textarea{font-size:16px}
+  .searchbar{margin:14px 16px 0;max-width:1068px;margin-left:auto;margin-right:auto}
+  .searchbar .g{display:flex;align-items:center;gap:7px;margin:0 4px 7px;font-size:12px;font-weight:700;color:var(--muted)}
+  .searchbar form{display:flex;gap:8px}
+  .searchbar input{flex:1;height:46px;border:1px solid var(--line);border-radius:var(--r-pill);padding:0 16px;background:#fff;outline:none}
+  .searchbar input:focus{border-color:#999}
+  .searchbar button{height:46px;padding:0 18px;border-radius:var(--r-pill);background:var(--grad);color:#fff;font-weight:800;transition:transform .15s var(--ease)}
+  .searchbar button:active{transform:scale(.95)}
+  .banners{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  @media(max-width:640px){.banners{grid-template-columns:1fr}}
+  .bnr{position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:130px;border-radius:var(--r);overflow:hidden;color:#fff;padding:16px;box-shadow:var(--sh1)}
+  .bnr .bg2{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .5s var(--ease)}
+  .bnr:active{transform:scale(.99)}
+  @media(hover:hover){.bnr:hover .bg2{transform:scale(1.06)}}
+  .bnr .ov2{position:absolute;inset:0}
+  .bnr .ct{position:relative;z-index:2}
+  .bnr .k{font-size:10.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;opacity:.95}
+  .bnr .h{font-family:var(--fd);font-size:19px;font-weight:800;margin-top:3px;text-shadow:0 1px 6px rgba(0,0,0,.4)}
+  .bnr .cta{margin-top:9px;align-self:flex-start;background:rgba(255,255,255,.94);color:#111;font-weight:800;font-size:12px;padding:6px 12px;border-radius:var(--r-pill)}
+  .spotify iframe{width:100%;border:0;border-radius:14px}
+</style>
+</head>
+<body>
+  <header class="appbar"><div class="row">
+    <div class="brand"><div class="mk">ANT</div><div class="nm">ALEX NEWS<i id="tagline">TODAY</i></div></div>
+    <div class="acts">
+      <button class="iconbtn" id="langBtn">🌐 <span id="langLabel">PT</span></button>
+      <button class="iconbtn solid" id="shareTop">Compartilhar</button>
+    </div>
+  </div></header>
+
+  <div class="pills"><div class="scroller" id="pills"></div></div>
+
+  <div class="tvbar"><div id="tvTicker" class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div></div></div>
+
+  <div class="moti"><div class="in"><span class="b" id="motiLabel">★ FRASE</span><i id="motiQuote"></i></div></div>
+  <div class="searchbar" id="busca"><div class="g">🔎 Pesquisar na web · Google</div>
+  <form id="gForm"><input id="gq" type="search" placeholder="Buscar no Google..." aria-label="Buscar no Google"><button type="submit">Buscar</button></form></div>
+
+  <div class="breaking"><div class="tag" id="breakingTag">⚡ PLANTÃO</div><div class="track"><div class="move" id="breakingMove"></div></div></div>
+
+  <main class="wrap">
+    <a class="hero reveal" id="hero" href="#" target="_blank" rel="noopener"></a>
+    <div id="news"></div>
+
+    <h2 class="secttl" id="mercados"><span class="bar"></span> <span id="ttl_mercados">Mercados</span></h2>
+    <div class="wrow">
+      <div class="wbox"><div class="wh">EUR / USD</div><div id="tvEur" class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div></div></div>
+      <div class="wbox"><div class="wh">USD / BRL</div><div id="tvUsd" class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div></div></div>
+      <div class="wbox"><div class="wh" id="wh_weather">☀️ Miami</div><div style="padding:6px 8px"><a class="weatherwidget-io" href="https://forecast7.com/en/25d76n80d19/miami/" data-label_1="MIAMI" data-label_2="" data-theme="original" data-basecolor="#cc0000">MIAMI</a></div></div>
+    </div>
+
+    <h2 class="secttl" id="cams"><span class="bar"></span> <span id="ttl_cams">Webcams</span></h2>
+    <div class="cams">
+      <a class="cam" href="https://www.earthcam.com/usa/florida/miami/" target="_blank" rel="noopener"><i style="background-image:url('https://images.unsplash.com/photo-1506966953602-c20cc11f75e3?w=600&q=70')"></i><div class="ov"></div><div class="badge"><span class="pd"></span>LIVE</div><div class="play"><span>▶</span></div><div class="lab"><div class="n">Miami</div><div class="t2" data-tz="America/New_York">--:--</div></div></a>
+      <a class="cam" href="https://www.earthcam.com/usa/newyork/timessquare/" target="_blank" rel="noopener"><i style="background-image:url('https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=600&q=70')"></i><div class="ov"></div><div class="badge"><span class="pd"></span>LIVE</div><div class="play"><span>▶</span></div><div class="lab"><div class="n">New York</div><div class="t2" data-tz="America/New_York">--:--</div></div></a>
+      <a class="cam" href="https://www.earthcam.com/world/england/london/" target="_blank" rel="noopener"><i style="background-image:url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=600&q=70')"></i><div class="ov"></div><div class="badge"><span class="pd"></span>LIVE</div><div class="play"><span>▶</span></div><div class="lab"><div class="n">London</div><div class="t2" data-tz="Europe/London">--:--</div></div></a>
+      <a class="cam" href="https://www.skylinewebcams.com/en/webcam/italia/lazio/roma.html" target="_blank" rel="noopener"><i style="background-image:url('https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=600&q=70')"></i><div class="ov"></div><div class="badge"><span class="pd"></span>LIVE</div><div class="play"><span>▶</span></div><div class="lab"><div class="n">Roma</div><div class="t2" data-tz="Europe/Rome">--:--</div></div></a>
+      <a class="cam" href="https://www.skylinewebcams.com/en/webcam/italia/lombardia/milano.html" target="_blank" rel="noopener"><i style="background-image:url('https://images.unsplash.com/photo-1520440229-6469a149ac59?w=600&q=70')"></i><div class="ov"></div><div class="badge"><span class="pd"></span>LIVE</div><div class="play"><span>▶</span></div><div class="lab"><div class="n">Milano</div><div class="t2" data-tz="Europe/Rome">--:--</div></div></a>
+      <a class="cam" href="https://www.skylinewebcams.com/en/webcam/france/ile-de-france/paris.html" target="_blank" rel="noopener"><i style="background-image:url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600&q=70')"></i><div class="ov"></div><div class="badge"><span class="pd"></span>LIVE</div><div class="play"><span>▶</span></div><div class="lab"><div class="n">Paris</div><div class="t2" data-tz="Europe/Paris">--:--</div></div></a>
+    </div>
+
+    <h2 class="secttl" id="parceiros"><span class="bar"></span> 🤝 Parceiros</h2>
+    <div class="banners">
+      <a class="bnr" href="https://www.vivadune.com.br" target="_blank" rel="noopener"><div class="bg2" style="background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&q=70')"></div><div class="ov2" style="background:linear-gradient(120deg,rgba(0,95,130,.55),rgba(0,0,0,.78))"></div><div class="ct"><div class="k">Empreendimento</div><div class="h">Viva Dune</div><span class="cta">Conheça →</span></div></a>
+      <a class="bnr" href="https://alessandroenchisi.remax.com.br/" target="_blank" rel="noopener"><div class="bg2" style="background-image:url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=700&q=70')"></div><div class="ov2" style="background:linear-gradient(120deg,rgba(0,45,120,.55),rgba(0,0,0,.78))"></div><div class="ct"><div class="k">Imóveis · RE/MAX</div><div class="h">Alessandro Enchisi</div><span class="cta">Buscar imóveis →</span></div></a>
+      <a class="bnr" href="https://www.tribunadonorte.com.br/" target="_blank" rel="noopener"><div class="bg2" style="background-image:url('https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=700&q=70')"></div><div class="ov2" style="background:linear-gradient(120deg,rgba(20,20,25,.5),rgba(0,0,0,.82))"></div><div class="ct"><div class="k">Notícias RN · grátis</div><div class="h">Tribuna do Norte</div><span class="cta">Ler →</span></div></a>
+      <a class="bnr" id="igBanner" href="https://www.instagram.com/dunebeachville/" target="_blank" rel="noopener"><div class="bg2" style="background-image:url('https://images.unsplash.com/photo-1611262588024-d12430b98920?w=700&q=70')"></div><div class="ov2" style="background:linear-gradient(120deg,rgba(214,41,118,.62),rgba(150,47,191,.7),rgba(0,0,0,.55))"></div><div class="ct"><div class="k">Social</div><div class="h">@dunebeachville</div><span class="cta">Seguir →</span></div></a>
+    </div>
+
+    <h2 class="secttl" id="bolsa"><span class="bar"></span> 📊 Bolsa &amp; Cripto</h2>
+    <div class="searchbar" style="margin-left:0;margin-right:0"><div class="g">🔎 Buscar ação / índice · abre cotação no TradingView</div>
+    <form id="sForm"><input id="sq" type="search" placeholder="Ex.: PETR4, AAPL, IBOV, VALE3..."><button type="submit">Ver cotação</button></form></div>
+    <div id="tvMarket" class="tradingview-widget-container" style="margin-top:12px"><div class="tradingview-widget-container__widget"></div></div>
+    <div class="wrow" style="margin-top:12px"><div class="wbox"><div class="wh">₿ Bitcoin / USD · ao vivo</div><div id="tvBtc" class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div></div></div></div>
+
+    <h2 class="secttl" id="musica"><span class="bar"></span> 🎵 Música</h2>
+    <div class="searchbar" style="margin-left:0;margin-right:0"><div class="g">🔎 Buscar e ouvir no Spotify</div>
+    <form id="spForm"><input id="spq" type="search" placeholder="Buscar artista, música ou playlist..."><button type="submit">Abrir no Spotify</button></form></div>
+    <div class="spotify" style="margin-top:12px"><iframe title="Spotify" src="https://open.spotify.com/embed/playlist/1UXkmM4YmW6ChjqbELauw3?utm_source=generator" height="352" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe></div>
+
+    <h2 class="secttl" id="fontes"><span class="bar"></span> <span id="ttl_sources">Fontes</span></h2>
+    <div class="sources"><div class="box"><div class="links" id="sourcesLinks"></div></div></div>
+  </main>
+
+  <footer class="wrap"><b>ALEX NEWS TODAY</b> — <span id="footTxt"></span></footer>
+
+  <nav class="tabbar" id="tabbar">
+    <button data-act="top" class="on"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg>Início</button>
+    <button data-act="mercados"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M8 16l3-4 3 2 4-6"/></svg>Mercados</button>
+    <button data-act="cams"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/></svg>Webcams</button>
+    <button data-act="lang"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>Idioma</button>
+    <button data-act="share"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>Enviar</button>
+  </nav>
+
+  <div class="backdrop" id="backdrop"></div>
+  <div class="sheet" id="langSheet">
+    <div class="grab"></div><h4 id="langTitle">Idioma / Language</h4>
+    <div class="langs" id="langs">
+      <button data-l="pt" class="on">🇧🇷 Português</button><button data-l="it">🇮🇹 Italiano</button>
+      <button data-l="en">🇬🇧 English</button><button data-l="fr">🇫🇷 Français</button>
+      <button data-l="de">🇩🇪 Deutsch</button><button data-l="es">🇪🇸 Español</button>
+    </div>
+  </div>
+
+  <div class="install" id="installBanner"><div class="txt"><b>Instale o ALEX NEWS</b><br>Adicione à tela inicial e abra como app.</div><button class="iconbtn solid" id="installBtn">Instalar</button><button class="x" id="installX">✕</button></div>
+
+<script>
+var UI = {
+  pt:{tag:"TODAY",live:"AO VIVO",breaking:"⚡ PLANTÃO",latest:"ÚLTIMAS",open:"abrir",sources:"Fontes",cams:"Webcams ao vivo",mercados:"Mercados",weather:"☀️ Clima Miami",heroKw:"Manchete do dia",motiLabel:"★ FRASE",langTitle:"Idioma / Language",foot:"app premium · widgets ao vivo · investimentos e imóveis são informativos, não recomendação."},
+  it:{tag:"TODAY",live:"IN DIRETTA",breaking:"⚡ ULTIM'ORA",latest:"ULTIME",open:"apri",sources:"Fonti",cams:"Webcam dal vivo",mercados:"Mercati",weather:"☀️ Meteo Miami",heroKw:"Notizia del giorno",motiLabel:"★ FRASE",langTitle:"Lingua",foot:"app premium · widget dal vivo · investimenti e immobili informativi, non consigli."},
+  en:{tag:"TODAY",live:"LIVE",breaking:"⚡ BREAKING",latest:"LATEST",open:"open",sources:"Sources",cams:"Live webcams",mercados:"Markets",weather:"☀️ Miami weather",heroKw:"Top story",motiLabel:"★ QUOTE",langTitle:"Language",foot:"premium app · live widgets · investing and real estate are informational, not advice."},
+  fr:{tag:"TODAY",live:"EN DIRECT",breaking:"⚡ URGENT",latest:"DERNIÈRES",open:"ouvrir",sources:"Sources",cams:"Webcams en direct",mercados:"Marchés",weather:"☀️ Météo Miami",heroKw:"À la une",motiLabel:"★ CITATION",langTitle:"Langue",foot:"app premium · widgets en direct · investissements et immobilier informatifs, non des conseils."},
+  de:{tag:"TODAY",live:"LIVE",breaking:"⚡ EILMELDUNG",latest:"AKTUELL",open:"öffnen",sources:"Quellen",cams:"Live-Webcams",mercados:"Märkte",weather:"☀️ Wetter Miami",heroKw:"Schlagzeile",motiLabel:"★ ZITAT",langTitle:"Sprache",foot:"Premium-App · Live-Widgets · Investitionen und Immobilien sind informativ, keine Beratung."},
+  es:{tag:"TODAY",live:"EN VIVO",breaking:"⚡ ÚLTIMA HORA",latest:"ÚLTIMAS",open:"abrir",sources:"Fuentes",cams:"Webcams en vivo",mercados:"Mercados",weather:"☀️ Clima Miami",heroKw:"Titular del día",motiLabel:"★ FRASE",langTitle:"Idioma",foot:"app premium · widgets en vivo · inversiones e inmuebles son informativos, no recomendación."}
+};
+var SRC=["InfoMoney","Money Times","Bloomberg Línea","ANSA","Today.it","NBC News","E! News","Leo Dias","SERHANT","Robb Report","BuildFastWithAI","Later"];
+var SRC_URL={"InfoMoney":"https://www.infomoney.com.br/","Money Times":"https://www.moneytimes.com.br/","Bloomberg Línea":"https://www.bloomberglinea.com.br/","ANSA":"https://www.ansa.it/","Today.it":"https://www.today.it/","NBC News":"https://www.nbcnews.com/","E! News":"https://www.eonline.com/news","Leo Dias":"https://portalleodias.com/","SERHANT":"https://serhant.com/","Robb Report":"https://robbreport.com/","BuildFastWithAI":"https://www.buildfastwithai.com/","Later":"https://later.com/blog/instagram-reels-trends/"};
+var LANG='pt'; try{var sv=localStorage.getItem('ant_lang'); if(sv)LANG=sv;}catch(e){}
+var D = window.ANT_DATA || {date:'',sections:[],hero:{t:{},s:{}},quote:{}};
+var SHAREIC='<span class="shareBtn" data-share="1"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="2.4"/><circle cx="6" cy="12" r="2.4"/><circle cx="18" cy="19" r="2.4"/><path d="M8.4 13.3l7.2 4.2M15.6 6.5l-7.2 4.2"/></svg></span>';
+function esc(s){return String(s).replace(/"/g,'&quot;');}
+function cardHTML(it){
+  return '<a class="card reveal" href="'+it.url+'" target="_blank" rel="noopener" data-title="'+esc(it.t[LANG])+'">'+
+    '<div class="thumb"><i style="background-image:url(\''+it.img+'\')"></i><span class="badge2">'+it.src+'</span>'+SHAREIC+'</div>'+
+    '<div class="cbody"><div class="ch">'+it.t[LANG]+'</div><div class="cs">'+it.s[LANG]+'</div>'+
+    '<div class="cmore">'+UI[LANG].open+' ↗</div></div></a>';
+}
+function txt(id,v){var el=document.getElementById(id); if(el)el.textContent=v;}
+function render(){
+  var u=UI[LANG];
+  document.documentElement.lang=LANG;
+  txt('tagline',u.tag); txt('motiLabel',u.motiLabel);
+  txt('motiQuote',(D.quote&&D.quote[LANG])?D.quote[LANG]:'');
+  txt('breakingTag',u.breaking); txt('ttl_mercados',u.mercados); txt('ttl_cams',u.cams);
+  txt('ttl_sources',u.sources); txt('wh_weather',u.weather); txt('footTxt',u.foot);
+  txt('langLabel',LANG.toUpperCase()); txt('langTitle',u.langTitle);
+  var pills=D.sections.map(function(s){return '<button class="pill" data-go="'+s.key+'">'+s.icon+' '+s.title[LANG]+'</button>';}).join('');
+  pills+='<button class="pill" data-go="busca">🔎 Buscar</button><button class="pill" data-go="mercados">📈 '+u.mercados+'</button><button class="pill" data-go="bolsa">📊 Bolsa &amp; Cripto</button><button class="pill" data-go="parceiros">🤝 Parceiros</button><button class="pill" data-go="musica">🎵 Música</button><button class="pill" data-go="cams">📷 '+u.cams+'</button>';
+  var pl=document.getElementById('pills'); if(pl)pl.innerHTML=pills;
+  var h=document.getElementById('hero');
+  if(h&&D.hero){h.href=D.hero.url||'#'; h.setAttribute('data-title',(D.hero.t&&D.hero.t[LANG])||'ALEX NEWS TODAY');
+    h.innerHTML='<div class="bg" style="background-image:url(\''+(D.hero.img||'')+'\')"></div><div class="shade"></div>'+
+    '<div class="in"><span class="kw">'+u.heroKw+'</span><h1>'+((D.hero.t&&D.hero.t[LANG])||'')+'</h1><p>'+((D.hero.s&&D.hero.s[LANG])||'')+'</p>'+
+    '<div class="src">'+(D.hero.src||'')+' · '+u.open+' ↗</div></div>';}
+  var nw=document.getElementById('news');
+  if(nw)nw.innerHTML=D.sections.map(function(s){
+    return '<h2 class="secttl" id="'+s.key+'"><span class="bar"></span> '+s.icon+' '+s.title[LANG]+'</h2><div class="cards">'+s.items.map(cardHTML).join('')+'</div>';
+  }).join('');
+  var sl=document.getElementById('sourcesLinks');
+  if(sl)sl.innerHTML=SRC.map(function(n){return '<a href="'+(SRC_URL[n]||'#')+'" target="_blank" rel="noopener">'+n+'</a>';}).join('');
+  var bm=document.getElementById('breakingMove');
+  if(bm)bm.innerHTML=D.sections.slice(0,5).map(function(s){var it=s.items[0];return it?'<a href="'+it.url+'" target="_blank" rel="noopener">'+s.title[LANG].toUpperCase()+' — '+it.t[LANG]+'</a>':'';}).join('');
+  document.querySelectorAll('#langs button').forEach(function(b){b.classList.toggle('on',b.dataset.l===LANG);});
+}
+function shareContent(title,url){
+  var data={title:'ALEX NEWS TODAY',text:title||'ALEX NEWS TODAY',url:url||location.href};
+  if(navigator.share){navigator.share(data).catch(function(){});}
+  else if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText((title?title+' — ':'')+data.url).then(function(){toast('Link copiado!');},function(){});}
+  else{toast(data.url);}
+}
+var toastT;
+function toast(msg){var t=document.getElementById('toast'); if(!t)return; t.textContent=msg; t.style.opacity='1'; clearTimeout(toastT); toastT=setTimeout(function(){t.style.opacity='0';},1800);}
+function openSheet(){var a=document.getElementById('langSheet'),b=document.getElementById('backdrop'); if(a)a.classList.add('open'); if(b)b.classList.add('open');}
+function closeSheet(){var a=document.getElementById('langSheet'),b=document.getElementById('backdrop'); if(a)a.classList.remove('open'); if(b)b.classList.remove('open');}
+function setPill(active){document.querySelectorAll('#pills .pill').forEach(function(p){p.classList.remove('on');});if(active)active.classList.add('on');}
+document.addEventListener('click',function(e){
+  var sb=e.target.closest&&e.target.closest('.shareBtn');
+  if(sb){e.preventDefault();var card=sb.closest('[data-title]');shareContent(card?card.getAttribute('data-title'):'',card&&card.href?card.href:location.href);return;}
+  var pill=e.target.closest&&e.target.closest('[data-go]');
+  if(pill){var el=document.getElementById(pill.getAttribute('data-go'));if(el&&el.scrollIntoView)el.scrollIntoView({behavior:'smooth',block:'start'});setPill(pill);return;}
+  var lb=e.target.closest&&e.target.closest('#langs button');
+  if(lb){LANG=lb.dataset.l;try{localStorage.setItem('ant_lang',LANG);}catch(_){}render();closeSheet();return;}
+  var tab=e.target.closest&&e.target.closest('.tabbar button');
+  if(tab){var a=tab.getAttribute('data-act');
+    document.querySelectorAll('.tabbar button').forEach(function(b){b.classList.remove('on');});tab.classList.add('on');
+    if(a==='top'){if(window.scrollTo)window.scrollTo({top:0,behavior:'smooth'});}
+    else if(a==='lang')openSheet();
+    else if(a==='share')shareContent(document.title,location.href);
+    else{var t=document.getElementById(a);if(t&&t.scrollIntoView)t.scrollIntoView({behavior:'smooth',block:'start'});}
+    return;}
+  if(e.target.id==='langBtn'){openSheet();return;}
+  if(e.target.id==='shareTop'){shareContent(document.title,location.href);return;}
+  if(e.target.id==='backdrop'){closeSheet();return;}
+  if(e.target.id==='installBtn'){doInstall();return;}
+  if(e.target.id==='installX'){var ib=document.getElementById('installBanner');if(ib)ib.classList.remove('show');return;}
+});
+var deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;var ib=document.getElementById('installBanner');if(ib)ib.classList.add('show');});
+function doInstall(){var ib=document.getElementById('installBanner');if(ib)ib.classList.remove('show');if(deferredPrompt){deferredPrompt.prompt();deferredPrompt=null;}}
+function clocks(){document.querySelectorAll('[data-tz]').forEach(function(el){try{el.textContent=new Intl.DateTimeFormat('pt-BR',{hour:'2-digit',minute:'2-digit',timeZone:el.dataset.tz}).format(new Date());}catch(e){}});}
+render();clocks();setInterval(clocks,1000*20);
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+function tvWidget(hostId,src,cfg){var host=document.getElementById(hostId);if(!host)return;var s=document.createElement('script');s.type='text/javascript';s.async=true;s.src=src;s.text=JSON.stringify(cfg);host.appendChild(s);}
+tvWidget('tvTicker','https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js',{symbols:[{description:'EUR/USD',proName:'FX:EURUSD'},{description:'USD/BRL',proName:'FX_IDC:USDBRL'},{description:'EUR/BRL',proName:'FX_IDC:EURBRL'},{description:'Ibovespa',proName:'INDEX:IBOV'},{description:'S&P 500',proName:'FOREXCOM:SPXUSD'},{description:'Bitcoin',proName:'BINANCE:BTCUSDT'},{description:'Gold',proName:'OANDA:XAUUSD'}],showSymbolLogo:true,isTransparent:false,displayMode:'adaptive',colorTheme:'light',locale:'br'});
+tvWidget('tvEur','https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js',{symbol:'FX:EURUSD',width:'100%',colorTheme:'light',isTransparent:false,locale:'br'});
+tvWidget('tvUsd','https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js',{symbol:'FX_IDC:USDBRL',width:'100%',colorTheme:'light',isTransparent:false,locale:'br'});
+document.addEventListener('submit',function(e){
+  if(e.target.id==='gForm'){e.preventDefault();var q=((document.getElementById('gq')||{}).value||'').trim();window.open('https://www.google.com/search?q='+encodeURIComponent(q),'_blank');return;}
+  if(e.target.id==='sForm'){e.preventDefault();var q=((document.getElementById('sq')||{}).value||'').trim();if(q)window.open('https://www.tradingview.com/symbols/'+encodeURIComponent(q.toUpperCase())+'/','_blank');return;}
+  if(e.target.id==='spForm'){e.preventDefault();var q=((document.getElementById('spq')||{}).value||'').trim();window.open('https://open.spotify.com/search/'+encodeURIComponent(q),'_blank');return;}
+});
+tvWidget('tvMarket','https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js',{colorTheme:'light',dateRange:'1D',showChart:true,locale:'br',isTransparent:false,showSymbolLogo:true,width:'100%',height:420,tabs:[{title:'Índices',symbols:[{s:'INDEX:IBOV',d:'Ibovespa'},{s:'FOREXCOM:SPXUSD',d:'S&P 500'},{s:'FOREXCOM:NSXUSD',d:'Nasdaq 100'},{s:'INDEX:DEU40',d:'DAX'}]},{title:'Cripto',symbols:[{s:'BINANCE:BTCUSDT',d:'Bitcoin'},{s:'BINANCE:ETHUSDT',d:'Ethereum'}]},{title:'Câmbio',symbols:[{s:'FX:EURUSD',d:'EUR/USD'},{s:'FX_IDC:USDBRL',d:'USD/BRL'}]}]});
+tvWidget('tvBtc','https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js',{symbol:'BINANCE:BTCUSDT',width:'100%',colorTheme:'light',isTransparent:false,locale:'br'});
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
+</script>
+<div id="toast" style="position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--tabh) + env(safe-area-inset-bottom) + 16px);z-index:60;background:#0c0c0e;color:#fff;font-size:13px;font-weight:600;padding:10px 16px;border-radius:12px;opacity:0;transition:opacity .25s;pointer-events:none"></div>
+<script src="data.js"></script>
+<script>if(window.ANT_DATA){D=window.ANT_DATA;render();clocks();}</script>
+</body>
+</html>
