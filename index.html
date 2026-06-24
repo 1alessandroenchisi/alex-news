@@ -176,6 +176,11 @@
   .bnr .h{font-family:var(--fd);font-size:19px;font-weight:800;margin-top:3px;text-shadow:0 1px 6px rgba(0,0,0,.4)}
   .bnr .cta{margin-top:9px;align-self:flex-start;background:rgba(255,255,255,.94);color:#111;font-weight:800;font-size:12px;padding:6px 12px;border-radius:var(--r-pill)}
   .spotify iframe{width:100%;border:0;border-radius:14px}
+  .qchips{display:flex;flex-wrap:wrap;gap:8px;margin-top:9px}
+  .qchip{font-size:12px;font-weight:700;padding:7px 12px;border-radius:var(--r-pill);border:1px solid var(--line);background:#fff;color:#222;transition:transform .15s var(--ease),border-color .2s,color .2s}
+  .qchip:active{transform:scale(.95)}
+  .qchip.dune{background:var(--grad);color:#fff;border-color:transparent}
+  @media(hover:hover){.qchip:hover{border-color:var(--red);color:var(--red)}.qchip.dune:hover{color:#fff}}
 </style>
 </head>
 <body>
@@ -193,7 +198,13 @@
 
   <div class="moti"><div class="in"><span class="b" id="motiLabel">★ FRASE</span><i id="motiQuote"></i></div></div>
   <div class="searchbar" id="busca"><div class="g">🔎 Pesquisar na web · Google</div>
-  <form id="gForm"><input id="gq" type="search" placeholder="Buscar no Google..." aria-label="Buscar no Google"><button type="submit">Buscar</button></form></div>
+  <form id="gForm"><input id="gq" type="search" placeholder="Buscar no Google..." aria-label="Buscar no Google"><button type="submit">Buscar</button></form>
+  <div class="qchips">
+    <button class="qchip dune" data-q="Dune Beach Ville Natal">🏖️ Dune Beach Ville</button>
+    <button class="qchip" data-q="Viva Dune empreendimento Natal">Viva Dune</button>
+    <button class="qchip" data-q="Alessandro Enchisi RE/MAX imóveis">Imóveis RE/MAX Alessandro</button>
+    <button class="qchip" data-q="imóveis de alto padrão Natal RN">Imóveis em Natal</button>
+  </div></div>
 
   <div class="breaking"><div class="tag" id="breakingTag">⚡ PLANTÃO</div><div class="track"><div class="move" id="breakingMove"></div></div></div>
 
@@ -323,6 +334,7 @@ function openSheet(){var a=document.getElementById('langSheet'),b=document.getEl
 function closeSheet(){var a=document.getElementById('langSheet'),b=document.getElementById('backdrop'); if(a)a.classList.remove('open'); if(b)b.classList.remove('open');}
 function setPill(active){document.querySelectorAll('#pills .pill').forEach(function(p){p.classList.remove('on');});if(active)active.classList.add('on');}
 document.addEventListener('click',function(e){
+  var qc=e.target.closest&&e.target.closest('.qchip'); if(qc){window.open('https://www.google.com/search?q='+encodeURIComponent(qc.getAttribute('data-q')),'_blank');return;}
   var sb=e.target.closest&&e.target.closest('.shareBtn');
   if(sb){e.preventDefault();var card=sb.closest('[data-title]');shareContent(card?card.getAttribute('data-title'):'',card&&card.href?card.href:location.href);return;}
   var pill=e.target.closest&&e.target.closest('[data-go]');
