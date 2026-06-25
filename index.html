@@ -213,6 +213,12 @@
     .sn-sep{height:1px;background:var(--line);margin:6px 8px}
     .sn-date{padding:10px 10px 6px;font-size:10px;font-weight:700;color:var(--muted)}
   }
+  /* WhatsApp FAB */
+  #wabtn{position:fixed;right:16px;bottom:calc(var(--tabh) + env(safe-area-inset-bottom) + 70px);z-index:44;width:54px;height:54px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(37,211,102,.55);transition:transform .2s var(--ease);text-decoration:none;border:none}
+  #wabtn:active{transform:scale(.88)}
+  #wabtn svg{width:28px;height:28px;fill:#fff}
+  @media(min-width:960px){#wabtn{bottom:80px;right:24px}}
+
   /* ANSA Widget */
   .ansa-card{border-radius:14px;overflow:hidden;box-shadow:var(--sh);margin-top:4px}
   .ansa-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:linear-gradient(120deg,#cc0000,#8b0000);color:#fff;text-decoration:none;gap:10px}
@@ -249,15 +255,6 @@
   <div class="tvbar"><div id="tvTicker" class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div></div></div>
 
   <div class="moti"><div class="in"><span class="b" id="motiLabel">★ FRASE</span><i id="motiQuote"></i></div></div>
-  <div class="searchbar" id="busca"><div class="g">🔎 Pesquisar na web · Google</div>
-  <form id="gForm"><input id="gq" type="search" placeholder="Buscar no Google..." aria-label="Buscar no Google"><button type="submit">Buscar</button></form>
-  <div class="qchips">
-    <button class="qchip dune" data-q="Dune Beach Ville Natal">🏖️ Dune Beach Ville</button>
-    <button class="qchip" data-q="Viva Dune empreendimento Natal">Viva Dune</button>
-    <button class="qchip" data-q="Alessandro Enchisi RE/MAX imóveis">Imóveis RE/MAX Alessandro</button>
-    <button class="qchip" data-q="imóveis de alto padrão Natal RN">Imóveis em Natal</button>
-  </div></div>
-
   <div class="breaking"><div class="tag" id="breakingTag">⚡ PLANTÃO</div><div class="track"><div class="move" id="breakingMove"></div></div></div>
 
   <main class="wrap">
@@ -328,6 +325,18 @@
 
     <h2 class="secttl" id="fontes"><span class="bar"></span> <span id="ttl_sources">Fontes</span></h2>
     <div class="sources"><div class="box"><div class="links" id="sourcesLinks"></div></div></div>
+
+    <h2 class="secttl" id="busca"><span class="bar"></span> 🔎 Pesquisar · Google</h2>
+    <div class="searchbar" style="margin-left:0;margin-right:0">
+      <form id="gForm"><input id="gq" type="search" placeholder="Buscar no Google..." aria-label="Buscar no Google"><button type="submit">Buscar</button></form>
+      <div class="qchips" style="margin-top:10px">
+        <button class="qchip dune" data-url="https://www.vivadune.com.br">🏖️ Viva Dune</button>
+        <button class="qchip" data-url="https://www.instagram.com/dunebeachville/">📸 Instagram Dune</button>
+        <button class="qchip" data-url="https://alessandroenchisi.remax.com.br/">🏠 RE/MAX Alessandro</button>
+        <button class="qchip" data-url="https://www.tribunadonorte.com.br/">📰 Tribuna do Norte</button>
+        <button class="qchip" data-q="imóveis de alto padrão Natal RN">Imóveis Natal</button>
+      </div>
+    </div>
   </main>
 
   <footer class="wrap"><b>ALEX NEWS TODAY</b> — <span id="footTxt"></span></footer>
@@ -413,7 +422,7 @@ function openSheet(){var a=document.getElementById('langSheet'),b=document.getEl
 function closeSheet(){var a=document.getElementById('langSheet'),b=document.getElementById('backdrop'); if(a)a.classList.remove('open'); if(b)b.classList.remove('open');}
 function setPill(active){document.querySelectorAll('#pills .pill').forEach(function(p){p.classList.remove('on');});if(active)active.classList.add('on');}
 document.addEventListener('click',function(e){
-  var qc=e.target.closest&&e.target.closest('.qchip'); if(qc){window.open('https://www.google.com.br/search?q='+encodeURIComponent(qc.getAttribute('data-q')),'_blank');return;}
+  var qc=e.target.closest&&e.target.closest('.qchip'); if(qc){var _url=qc.getAttribute('data-url'),_q=qc.getAttribute('data-q');if(_url)window.open(_url,'_blank','noopener,noreferrer');else if(_q)window.open('https://www.google.com.br/search?q='+encodeURIComponent(_q),'_blank');return;}
   var sb=e.target.closest&&e.target.closest('.shareBtn');
   if(sb){e.preventDefault();var card=sb.closest('[data-title]');shareContent(card?card.getAttribute('data-title'):'',card&&card.href?card.href:location.href);return;}
   var pill=e.target.closest&&e.target.closest('[data-go]');
@@ -587,8 +596,22 @@ document.addEventListener('submit',function(e){
 tvWidget('tvMarket','https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js',{colorTheme:'light',dateRange:'1D',showChart:true,locale:'br',isTransparent:false,showSymbolLogo:true,width:'100%',height:420,tabs:[{title:'Índices',symbols:[{s:'INDEX:IBOV',d:'Ibovespa'},{s:'FOREXCOM:SPXUSD',d:'S&P 500'},{s:'FOREXCOM:NSXUSD',d:'Nasdaq 100'},{s:'INDEX:DEU40',d:'DAX'}]},{title:'Cripto',symbols:[{s:'BINANCE:BTCUSDT',d:'Bitcoin'},{s:'BINANCE:ETHUSDT',d:'Ethereum'}]},{title:'Câmbio',symbols:[{s:'FX:EURUSD',d:'EUR/USD'},{s:'FX_IDC:USDBRL',d:'USD/BRL'}]}]});
 tvWidget('tvBtc','https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js',{symbol:'BINANCE:BTCUSDT',width:'100%',colorTheme:'light',isTransparent:false,locale:'br'});
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
+/* Força abertura no navegador do sistema para links externos em modo PWA */
+(function(){
+  var ext=['vivadune.com.br','instagram.com','tribunadonorte.com.br','remax.com.br'];
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('a[href]');
+    if(!a)return;
+    var href=a.getAttribute('href')||'';
+    if(!href||href.charAt(0)==='#')return;
+    var isPWA=window.matchMedia&&window.matchMedia('(display-mode:standalone)').matches;
+    var isExt=ext.some(function(d){return href.indexOf(d)>-1;});
+    if(isPWA&&isExt){e.preventDefault();window.open(href,'_blank','noopener,noreferrer');}
+  },true);
+})();
 </script>
 <button id="fab" aria-label="Voltar ao topo">↑</button>
+<a id="wabtn" href="https://wa.me/5584999099076" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Alessandro Enchisi" title="WhatsApp · Alessandro Enchisi"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
 <div id="toast" style="position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--tabh) + env(safe-area-inset-bottom) + 16px);z-index:60;background:#0c0c0e;color:#fff;font-size:13px;font-weight:600;padding:10px 16px;border-radius:12px;opacity:0;transition:opacity .25s;pointer-events:none"></div>
 <script src="data.js"></script>
 <script>if(window.ANT_DATA){D=window.ANT_DATA;render();clocks();}</script>
