@@ -213,6 +213,24 @@
     .sn-sep{height:1px;background:var(--line);margin:6px 8px}
     .sn-date{padding:10px 10px 6px;font-size:10px;font-weight:700;color:var(--muted)}
   }
+  /* ANSA Widget */
+  .ansa-card{border-radius:14px;overflow:hidden;box-shadow:var(--sh);margin-top:4px}
+  .ansa-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:linear-gradient(120deg,#cc0000,#8b0000);color:#fff;text-decoration:none;gap:10px}
+  .ansa-logo{font-family:var(--fd);font-weight:900;font-size:18px;letter-spacing:3px;color:#fff}
+  .ansa-live{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:#ffaaaa;flex-shrink:0}
+  .ansa-body{background:#fff;max-height:520px;overflow-y:auto;scrollbar-width:thin}
+  .ansa-item{display:block;padding:11px 16px;border-bottom:1px solid var(--line);text-decoration:none;color:inherit;transition:background .13s}
+  .ansa-item:hover{background:var(--soft)}
+  .ansa-item:last-child{border-bottom:none}
+  .ansa-meta{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+  .ansa-time{font-size:10px;font-weight:700;color:#cc0000;background:#fef2f2;padding:2px 6px;border-radius:4px}
+  .ansa-cat{font-size:10px;font-weight:600;color:var(--muted);letter-spacing:.5px;text-transform:uppercase}
+  .ansa-title{font-size:13.5px;font-weight:700;color:#111;line-height:1.38;margin-bottom:3px}
+  .ansa-desc{font-size:11.5px;color:var(--muted);line-height:1.45}
+  .ansa-footer{padding:10px 16px;background:#fafafa;border-top:1px solid var(--line);text-align:right}
+  .ansa-footer a{font-size:12px;font-weight:700;color:#cc0000;text-decoration:none}
+  .ansa-loading{padding:32px;text-align:center;color:var(--muted);font-size:13px}
+  .ansa-spin{display:inline-block;width:20px;height:20px;border:2.5px solid var(--line);border-top-color:#cc0000;border-radius:50%;animation:spin .8s linear infinite;margin-right:8px;vertical-align:middle}
 </style>
 </head>
 <body>
@@ -290,21 +308,22 @@
       <div class="drone-frame"><iframe id="droneIframe" allow="autoplay; fullscreen; picture-in-picture; accelerometer" allowfullscreen loading="lazy" title="Drone Aerial Footage"></iframe></div>
     </div>
 
-    <h2 class="secttl" id="tgcom"><span class="bar"></span> 🇮🇹 TGCOM24 · Ultim'Ora</h2>
-    <div class="tgcom-card">
-      <a class="tgcom-hdr" href="https://www.tgcom24.mediaset.it/ultimissima/oraxora.shtml" target="_blank" rel="noopener">
+    <h2 class="secttl" id="tgcom"><span class="bar"></span> 🇮🇹 ANSA · Ultime Notizie</h2>
+    <div class="ansa-card">
+      <a class="ansa-hdr" href="https://www.ansa.it/sito/notizie/topnews/index.shtml" target="_blank" rel="noopener">
         <div style="display:flex;align-items:center;gap:12px">
-          <div class="tgcom-logo-box">TGCOM24</div>
+          <div class="ansa-logo">ANSA</div>
           <div>
-            <div style="font-weight:700;font-size:13px">🔴 ORA PER ORA · ULTIM'ORA</div>
-            <div style="font-size:11px;color:rgba(255,255,255,.65);margin-top:2px">Ultime notizie dall'Italia e dal mondo in tempo reale · apre o site →</div>
+            <div style="font-weight:700;font-size:13px">🔴 TOP NEWS · ITALIA &amp; MONDO</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.65);margin-top:2px">Agência de notícias italiana desde 1945 · atualizado em tempo real</div>
           </div>
         </div>
-        <div class="tgcom-live"><span class="pd"></span>LIVE</div>
+        <div class="ansa-live"><span class="pd"></span>LIVE</div>
       </a>
-      <div class="tgcom-iframe-wrap">
-        <iframe src="https://www.tgcom24.mediaset.it/ultimissima/oraxora.shtml" loading="lazy" sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-top-navigation" title="TGCOM24 Ultimissima"></iframe>
+      <div class="ansa-body" id="ansaItems">
+        <div class="ansa-loading"><span class="ansa-spin"></span>Caricamento notizie ANSA...</div>
       </div>
+      <div class="ansa-footer"><a href="https://www.ansa.it/sito/notizie/topnews/index.shtml" target="_blank" rel="noopener">Apri ANSA completo →</a></div>
     </div>
 
     <h2 class="secttl" id="fontes"><span class="bar"></span> <span id="ttl_sources">Fontes</span></h2>
@@ -364,7 +383,7 @@ function render(){
   txt('ttl_sources',u.sources); txt('wh_weather',u.weather); txt('footTxt',u.foot);
   txt('langLabel',LANG.toUpperCase()); txt('langTitle',u.langTitle);
   var pills=D.sections.map(function(s){return '<button class="pill" data-go="'+s.key+'">'+s.icon+' '+s.title[LANG]+'</button>';}).join('');
-  pills+='<button class="pill" data-go="busca">🔎 Buscar</button><button class="pill" data-go="mercados">📈 '+u.mercados+'</button><button class="pill" data-go="bolsa">📊 Bolsa &amp; Cripto</button><button class="pill" data-go="parceiros">🤝 Parceiros</button><button class="pill" data-go="musica">🎵 Música</button><button class="pill" data-go="youtube">▶ YouTube</button><button class="pill" data-go="tgcom">🇮🇹 TGCOM24</button><button class="pill" data-go="cams">📷 '+u.cams+'</button>';
+  pills+='<button class="pill" data-go="busca">🔎 Buscar</button><button class="pill" data-go="mercados">📈 '+u.mercados+'</button><button class="pill" data-go="bolsa">📊 Bolsa &amp; Cripto</button><button class="pill" data-go="parceiros">🤝 Parceiros</button><button class="pill" data-go="musica">🎵 Música</button><button class="pill" data-go="youtube">▶ YouTube</button><button class="pill" data-go="tgcom">🇮🇹 ANSA</button><button class="pill" data-go="cams">📷 '+u.cams+'</button>';
   var pl=document.getElementById('pills'); if(pl)pl.innerHTML=pills;
   var h=document.getElementById('hero');
   if(h&&D.hero){h.href=D.hero.url||'#'; h.setAttribute('data-title',(D.hero.t&&D.hero.t[LANG])||'ALEX NEWS TODAY');
@@ -380,7 +399,7 @@ function render(){
   var bm=document.getElementById('breakingMove');
   if(bm)bm.innerHTML=D.sections.slice(0,5).map(function(s){var it=s.items[0];return it?'<a href="'+it.url+'" target="_blank" rel="noopener">'+s.title[LANG].toUpperCase()+' — '+it.t[LANG]+'</a>':'';}).join('');
   document.querySelectorAll('#langs button').forEach(function(b){b.classList.toggle('on',b.dataset.l===LANG);});
-  buildSideNav();setupIO();updScroll();
+  buildSideNav();setupIO();updScroll();loadANSA();
 }
 function shareContent(title,url){
   var data={title:'ALEX NEWS TODAY',text:title||'ALEX NEWS TODAY',url:url||location.href};
@@ -446,7 +465,7 @@ function buildSideNav(){
     D.sections.forEach(function(s){h.push('<a class="sn-item" data-go="'+s.key+'" href="#"><span class="sic">'+s.icon+'</span>'+s.title[LANG]+'</a>');});
   }
   h.push('<div class="sn-sep"></div><div class="sn-sec">Ferramentas</div>');
-  [{id:'busca',ic:'🔎',l:'Buscar'},{id:'mercados',ic:'📈',l:u.mercados},{id:'bolsa',ic:'📊',l:'Bolsa & Cripto'},{id:'parceiros',ic:'🤝',l:'Parceiros'},{id:'musica',ic:'🎵',l:'Música'},{id:'youtube',ic:'▶',l:'YouTube · Drone'},{id:'tgcom',ic:'🇮🇹',l:'TGCOM24'},{id:'cams',ic:'📷',l:u.cams},{id:'fontes',ic:'📰',l:u.sources}].forEach(function(it){
+  [{id:'busca',ic:'🔎',l:'Buscar'},{id:'mercados',ic:'📈',l:u.mercados},{id:'bolsa',ic:'📊',l:'Bolsa & Cripto'},{id:'parceiros',ic:'🤝',l:'Parceiros'},{id:'musica',ic:'🎵',l:'Música'},{id:'youtube',ic:'▶',l:'YouTube · Drone'},{id:'tgcom',ic:'🇮🇹',l:'ANSA Italia'},{id:'cams',ic:'📷',l:u.cams},{id:'fontes',ic:'📰',l:u.sources}].forEach(function(it){
     h.push('<a class="sn-item" data-go="'+it.id+'" href="#"><span class="sic">'+it.ic+'</span>'+it.l+'</a>');
   });
   h.push('</div>');
@@ -487,6 +506,46 @@ function setupIO(){
     if(nxt>=0&&nxt!==cur){var t=document.getElementById(ids[nxt]);if(t)t.scrollIntoView({behavior:'smooth',block:'start'});}
   });
 })();
+/* ── ANSA RSS Widget ── */
+function loadANSA(){
+  var container=document.getElementById('ansaItems');
+  if(!container)return;
+  var proxy='https://api.allorigins.win/get?url=';
+  var feed='https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml';
+  fetch(proxy+encodeURIComponent(feed))
+    .then(function(r){return r.json();})
+    .then(function(data){
+      var parser=new DOMParser();
+      var xml=parser.parseFromString(data.contents,'text/xml');
+      var items=xml.querySelectorAll('item');
+      var h=[];
+      var count=0;
+      items.forEach(function(item){
+        if(count>=10)return;
+        count++;
+        var title=(item.querySelector('title')||{}).textContent||'';
+        var link=(item.querySelector('link')||{}).textContent||'#';
+        var desc=((item.querySelector('description')||{}).textContent||'').replace(/<[^>]+>/g,'').trim();
+        var pub=(item.querySelector('pubDate')||{}).textContent||'';
+        var cat=(item.querySelector('category')||{}).textContent||'';
+        var time='';
+        try{time=new Date(pub).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});}catch(e){}
+        if(desc.length>130)desc=desc.substring(0,130)+'…';
+        h.push('<a class="ansa-item" href="'+link+'" target="_blank" rel="noopener">'+
+          '<div class="ansa-meta">'+
+          (time?'<span class="ansa-time">'+time+'</span>':'')+
+          (cat?'<span class="ansa-cat">'+cat+'</span>':'')+
+          '</div>'+
+          '<div class="ansa-title">'+title+'</div>'+
+          (desc?'<div class="ansa-desc">'+desc+'</div>':'')+
+          '</a>');
+      });
+      container.innerHTML=h.length?h.join(''):'<div class="ansa-loading">Nessuna notizia disponibile</div>';
+    })
+    .catch(function(){
+      container.innerHTML='<div class="ansa-loading" style="padding:20px">Erro ao carregar. <a href="https://www.ansa.it/sito/notizie/topnews/index.shtml" target="_blank" style="color:#cc0000;font-weight:700">Abrir ANSA →</a></div>';
+    });
+}
 /* ── Drone Video Player ── */
 var DRONE_VIDS=[
   {id:'_DJb5HjeDkQ',label:'🌍 Megacidades 4K'},
