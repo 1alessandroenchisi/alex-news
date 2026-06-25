@@ -217,7 +217,7 @@
 </head>
 <body>
   <header class="appbar"><div class="row">
-    <div class="brand"><div class="mk">ANT</div><div class="nm">ALEX NEWS<i id="tagline">TODAY</i></div></div>
+    <div class="brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 222 44" style="height:34px;width:auto;display:block;flex-shrink:0" aria-label="Alex News Today"><defs><linearGradient id="anlg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#cc2233"/><stop offset="55%" stop-color="#e0247a"/><stop offset="100%" stop-color="#f07018"/></linearGradient><linearGradient id="anlg2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#cc2233"/><stop offset="100%" stop-color="#f07018"/></linearGradient></defs><rect x="2" y="7" width="9" height="32" rx="2" fill="#111"/><polygon points="11,7 20,7 31,39 22,39" fill="url(#anlg1)"/><rect x="22" y="7" width="9" height="32" rx="2" fill="#111"/><circle cx="6.5" cy="3.5" r="3" fill="#cc2233"/><line x1="48" y1="6" x2="48" y2="40" stroke="#c09050" stroke-width="1.5"/><text x="56" y="25" font-family="Sora,Montserrat,Arial Black,sans-serif" font-weight="800" font-size="17" fill="#111" letter-spacing="-0.3">ALEX NEWS</text><text x="58" y="39" font-family="Sora,Montserrat,Arial Black,sans-serif" font-weight="700" font-size="11" fill="url(#anlg2)" letter-spacing="3">TODAY</text></svg></div>
     <div class="acts">
       <button class="iconbtn" id="langBtn">🌐 <span id="langLabel">PT</span></button>
       <button class="iconbtn solid" id="shareTop">Compartilhar</button>
@@ -282,6 +282,31 @@
     <form id="spForm"><input id="spq" type="search" placeholder="Buscar artista, música ou playlist..."><button type="submit">Abrir no Spotify</button></form></div>
     <div class="spotify" style="margin-top:12px"><iframe title="Spotify" src="https://open.spotify.com/embed/playlist/1UXkmM4YmW6ChjqbELauw3?utm_source=generator" height="352" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe></div>
 
+    <h2 class="secttl" id="youtube"><span class="bar"></span> ▶ YouTube · Cidades do Ar</h2>
+    <div class="searchbar" style="margin-left:0;margin-right:0"><div class="g">🔎 Pesquisar no YouTube</div>
+    <form id="ytForm"><input id="ytq" type="search" placeholder="Ex: drone 4K cidade, relaxante, natureza..."><button type="submit">Buscar</button></form></div>
+    <div style="margin-top:12px">
+      <div class="drone-tabs" id="droneTabs"></div>
+      <div class="drone-frame"><iframe id="droneIframe" allow="autoplay; fullscreen; picture-in-picture; accelerometer" allowfullscreen loading="lazy" title="Drone Aerial Footage"></iframe></div>
+    </div>
+
+    <h2 class="secttl" id="tgcom"><span class="bar"></span> 🇮🇹 TGCOM24 · Ultim'Ora</h2>
+    <div class="tgcom-card">
+      <a class="tgcom-hdr" href="https://www.tgcom24.mediaset.it/ultimissima/oraxora.shtml" target="_blank" rel="noopener">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="tgcom-logo-box">TGCOM24</div>
+          <div>
+            <div style="font-weight:700;font-size:13px">🔴 ORA PER ORA · ULTIM'ORA</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.65);margin-top:2px">Ultime notizie dall'Italia e dal mondo in tempo reale · apre o site →</div>
+          </div>
+        </div>
+        <div class="tgcom-live"><span class="pd"></span>LIVE</div>
+      </a>
+      <div class="tgcom-iframe-wrap">
+        <iframe src="https://www.tgcom24.mediaset.it/ultimissima/oraxora.shtml" loading="lazy" sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-top-navigation" title="TGCOM24 Ultimissima"></iframe>
+      </div>
+    </div>
+
     <h2 class="secttl" id="fontes"><span class="bar"></span> <span id="ttl_sources">Fontes</span></h2>
     <div class="sources"><div class="box"><div class="links" id="sourcesLinks"></div></div></div>
   </main>
@@ -339,7 +364,7 @@ function render(){
   txt('ttl_sources',u.sources); txt('wh_weather',u.weather); txt('footTxt',u.foot);
   txt('langLabel',LANG.toUpperCase()); txt('langTitle',u.langTitle);
   var pills=D.sections.map(function(s){return '<button class="pill" data-go="'+s.key+'">'+s.icon+' '+s.title[LANG]+'</button>';}).join('');
-  pills+='<button class="pill" data-go="busca">🔎 Buscar</button><button class="pill" data-go="mercados">📈 '+u.mercados+'</button><button class="pill" data-go="bolsa">📊 Bolsa &amp; Cripto</button><button class="pill" data-go="parceiros">🤝 Parceiros</button><button class="pill" data-go="musica">🎵 Música</button><button class="pill" data-go="cams">📷 '+u.cams+'</button>';
+  pills+='<button class="pill" data-go="busca">🔎 Buscar</button><button class="pill" data-go="mercados">📈 '+u.mercados+'</button><button class="pill" data-go="bolsa">📊 Bolsa &amp; Cripto</button><button class="pill" data-go="parceiros">🤝 Parceiros</button><button class="pill" data-go="musica">🎵 Música</button><button class="pill" data-go="youtube">▶ YouTube</button><button class="pill" data-go="tgcom">🇮🇹 TGCOM24</button><button class="pill" data-go="cams">📷 '+u.cams+'</button>';
   var pl=document.getElementById('pills'); if(pl)pl.innerHTML=pills;
   var h=document.getElementById('hero');
   if(h&&D.hero){h.href=D.hero.url||'#'; h.setAttribute('data-title',(D.hero.t&&D.hero.t[LANG])||'ALEX NEWS TODAY');
@@ -369,7 +394,7 @@ function openSheet(){var a=document.getElementById('langSheet'),b=document.getEl
 function closeSheet(){var a=document.getElementById('langSheet'),b=document.getElementById('backdrop'); if(a)a.classList.remove('open'); if(b)b.classList.remove('open');}
 function setPill(active){document.querySelectorAll('#pills .pill').forEach(function(p){p.classList.remove('on');});if(active)active.classList.add('on');}
 document.addEventListener('click',function(e){
-  var qc=e.target.closest&&e.target.closest('.qchip'); if(qc){window.open('https://www.google.com/search?q='+encodeURIComponent(qc.getAttribute('data-q')),'_blank');return;}
+  var qc=e.target.closest&&e.target.closest('.qchip'); if(qc){window.open('https://www.google.com.br/search?q='+encodeURIComponent(qc.getAttribute('data-q')),'_blank');return;}
   var sb=e.target.closest&&e.target.closest('.shareBtn');
   if(sb){e.preventDefault();var card=sb.closest('[data-title]');shareContent(card?card.getAttribute('data-title'):'',card&&card.href?card.href:location.href);return;}
   var pill=e.target.closest&&e.target.closest('[data-go]');
@@ -412,7 +437,7 @@ window.addEventListener('scroll',updScroll,{passive:true});
 function buildSideNav(){
   var sn=document.getElementById('sidenav');if(!sn)return;
   var u=UI[LANG],h=[];
-  h.push('<div class="sn-head"><div class="mk">ANT</div><div class="nm">ALEX NEWS<small>TODAY</small></div></div>');
+  h.push('<div class="sn-head" style="padding:12px 14px;height:auto"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 222 44" style="height:28px;width:auto;display:block" aria-label="Alex News Today"><defs><linearGradient id="snlg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#cc2233"/><stop offset="55%" stop-color="#e0247a"/><stop offset="100%" stop-color="#f07018"/></linearGradient><linearGradient id="snlg2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#cc2233"/><stop offset="100%" stop-color="#f07018"/></linearGradient></defs><rect x="2" y="7" width="9" height="32" rx="2" fill="#111"/><polygon points="11,7 20,7 31,39 22,39" fill="url(#snlg1)"/><rect x="22" y="7" width="9" height="32" rx="2" fill="#111"/><circle cx="6.5" cy="3.5" r="3" fill="#cc2233"/><line x1="48" y1="6" x2="48" y2="40" stroke="#c09050" stroke-width="1.5"/><text x="56" y="25" font-family="Sora,Montserrat,Arial,sans-serif" font-weight="800" font-size="17" fill="#111" letter-spacing="-.3">ALEX NEWS</text><text x="58" y="39" font-family="Sora,Montserrat,Arial,sans-serif" font-weight="700" font-size="11" fill="url(#snlg2)" letter-spacing="3">TODAY</text></svg></div>');
   h.push('<div class="sn-body">');
   h.push('<div class="sn-date">📅 '+((D&&D.date)||'')+'</div>');
   h.push('<a class="sn-item" data-go="" href="#"><span class="sic">🏠</span>Início</a>');
@@ -421,7 +446,7 @@ function buildSideNav(){
     D.sections.forEach(function(s){h.push('<a class="sn-item" data-go="'+s.key+'" href="#"><span class="sic">'+s.icon+'</span>'+s.title[LANG]+'</a>');});
   }
   h.push('<div class="sn-sep"></div><div class="sn-sec">Ferramentas</div>');
-  [{id:'busca',ic:'🔎',l:'Buscar'},{id:'mercados',ic:'📈',l:u.mercados},{id:'bolsa',ic:'📊',l:'Bolsa & Cripto'},{id:'parceiros',ic:'🤝',l:'Parceiros'},{id:'musica',ic:'🎵',l:'Música'},{id:'cams',ic:'📷',l:u.cams},{id:'fontes',ic:'📰',l:u.sources}].forEach(function(it){
+  [{id:'busca',ic:'🔎',l:'Buscar'},{id:'mercados',ic:'📈',l:u.mercados},{id:'bolsa',ic:'📊',l:'Bolsa & Cripto'},{id:'parceiros',ic:'🤝',l:'Parceiros'},{id:'musica',ic:'🎵',l:'Música'},{id:'youtube',ic:'▶',l:'YouTube · Drone'},{id:'tgcom',ic:'🇮🇹',l:'TGCOM24'},{id:'cams',ic:'📷',l:u.cams},{id:'fontes',ic:'📰',l:u.sources}].forEach(function(it){
     h.push('<a class="sn-item" data-go="'+it.id+'" href="#"><span class="sic">'+it.ic+'</span>'+it.l+'</a>');
   });
   h.push('</div>');
@@ -431,7 +456,7 @@ var _io=null;
 function setupIO(){
   if(_io){_io.disconnect();_io=null;}
   var ids=((D&&D.sections)||[]).map(function(s){return s.key;});
-  ['busca','mercados','bolsa','parceiros','musica','cams','fontes'].forEach(function(id){if(document.getElementById(id))ids.push(id);});
+  ['busca','mercados','bolsa','parceiros','musica','youtube','tgcom','cams','fontes'].forEach(function(id){if(document.getElementById(id))ids.push(id);});
   if(!ids.length)return;
   _io=new IntersectionObserver(function(entries){
     entries.forEach(function(en){
@@ -462,6 +487,32 @@ function setupIO(){
     if(nxt>=0&&nxt!==cur){var t=document.getElementById(ids[nxt]);if(t)t.scrollIntoView({behavior:'smooth',block:'start'});}
   });
 })();
+/* ── Drone Video Player ── */
+var DRONE_VIDS=[
+  {id:'_DJb5HjeDkQ',label:'🌍 Megacidades 4K'},
+  {id:'WHNNHAoaZD4',label:'🇫🇷 Paris'},
+  {id:'yk8Ii4zQwmo',label:'🇦🇪 Dubai'},
+  {id:'47fsN2RMc18',label:'✈️ Relaxante'},
+  {id:'7dnLjw9dBCk',label:'🗽 New York'},
+  {id:'hHMiBYXsYs4',label:'🇺🇸 NYC 4K HDR'},
+  {id:'C0MLPz9I65M',label:'🌊 Los Angeles'}
+];
+var curDrone=-1;
+function loadDrone(i){
+  if(i===curDrone)return;curDrone=i;
+  var v=DRONE_VIDS[i];
+  var fr=document.getElementById('droneIframe');
+  if(fr)fr.src='https://www.youtube-nocookie.com/embed/'+v.id+'?autoplay=1&rel=0&mute=1&playsinline=1&modestbranding=1';
+  document.querySelectorAll('.drone-tab').forEach(function(t,ti){t.classList.toggle('on',ti===i);});
+}
+(function initDrone(){
+  var tabs=document.getElementById('droneTabs');
+  if(!tabs)return;
+  tabs.innerHTML=DRONE_VIDS.map(function(v,i){
+    return '<button class="drone-tab'+(i===0?' on':'')+'" onclick="loadDrone('+i+')">'+v.label+'</button>';
+  }).join('');
+  loadDrone(0);
+})();
 render();clocks();setInterval(clocks,1000*20);
 !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
 function tvWidget(hostId,src,cfg){var host=document.getElementById(hostId);if(!host)return;var s=document.createElement('script');s.type='text/javascript';s.async=true;s.src=src;s.text=JSON.stringify(cfg);host.appendChild(s);}
@@ -469,9 +520,10 @@ tvWidget('tvTicker','https://s3.tradingview.com/external-embedding/embed-widget-
 tvWidget('tvEur','https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js',{symbol:'FX:EURUSD',width:'100%',colorTheme:'light',isTransparent:false,locale:'br'});
 tvWidget('tvUsd','https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js',{symbol:'FX_IDC:USDBRL',width:'100%',colorTheme:'light',isTransparent:false,locale:'br'});
 document.addEventListener('submit',function(e){
-  if(e.target.id==='gForm'){e.preventDefault();var q=((document.getElementById('gq')||{}).value||'').trim();window.open('https://www.google.com/search?q='+encodeURIComponent(q),'_blank');return;}
+  if(e.target.id==='gForm'){e.preventDefault();var q=((document.getElementById('gq')||{}).value||'').trim();window.open('https://www.google.com.br/search?q='+encodeURIComponent(q),'_blank');return;}
   if(e.target.id==='sForm'){e.preventDefault();var q=((document.getElementById('sq')||{}).value||'').trim();if(q)window.open('https://www.tradingview.com/symbols/'+encodeURIComponent(q.toUpperCase())+'/','_blank');return;}
   if(e.target.id==='spForm'){e.preventDefault();var q=((document.getElementById('spq')||{}).value||'').trim();window.open('https://open.spotify.com/search/'+encodeURIComponent(q),'_blank');return;}
+  if(e.target.id==='ytForm'){e.preventDefault();var q=((document.getElementById('ytq')||{}).value||'').trim();window.open('https://www.youtube.com/results?search_query='+encodeURIComponent(q||'drone cidade aéreo 4K relaxante'),'_blank');return;}
 });
 tvWidget('tvMarket','https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js',{colorTheme:'light',dateRange:'1D',showChart:true,locale:'br',isTransparent:false,showSymbolLogo:true,width:'100%',height:420,tabs:[{title:'Índices',symbols:[{s:'INDEX:IBOV',d:'Ibovespa'},{s:'FOREXCOM:SPXUSD',d:'S&P 500'},{s:'FOREXCOM:NSXUSD',d:'Nasdaq 100'},{s:'INDEX:DEU40',d:'DAX'}]},{title:'Cripto',symbols:[{s:'BINANCE:BTCUSDT',d:'Bitcoin'},{s:'BINANCE:ETHUSDT',d:'Ethereum'}]},{title:'Câmbio',symbols:[{s:'FX:EURUSD',d:'EUR/USD'},{s:'FX_IDC:USDBRL',d:'USD/BRL'}]}]});
 tvWidget('tvBtc','https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js',{symbol:'BINANCE:BTCUSDT',width:'100%',colorTheme:'light',isTransparent:false,locale:'br'});
