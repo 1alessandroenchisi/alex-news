@@ -181,6 +181,38 @@
   .qchip:active{transform:scale(.95)}
   .qchip.dune{background:var(--grad);color:#fff;border-color:transparent}
   @media(hover:hover){.qchip:hover{border-color:var(--red);color:var(--red)}.qchip.dune:hover{color:#fff}}
+
+  /* ── UX 2026 ─────────────────────────────── */
+  /* Barra de progresso de leitura */
+  #pgbar{position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--grad);width:0;transition:width .1s linear;pointer-events:none;z-index:1;border-radius:0 2px 2px 0}
+  /* Botão voltar ao topo (FAB) */
+  #fab{position:fixed;right:16px;bottom:calc(var(--tabh) + env(safe-area-inset-bottom) + 12px);z-index:44;width:46px;height:46px;border-radius:50%;background:var(--grad);color:#fff;font-size:20px;font-weight:700;font-family:inherit;display:flex;align-items:center;justify-content:center;box-shadow:var(--sh2);opacity:0;transform:scale(.65) translateY(8px);transition:opacity .22s var(--ease),transform .22s var(--ease);pointer-events:none;border:none;cursor:pointer}
+  #fab.show{opacity:1;transform:none;pointer-events:auto}
+  #fab:active{transform:scale(.88)!important}
+  /* Sidebar desktop */
+  .sidenav{display:none}
+  @media(min-width:960px){
+    :root{--snw:212px}
+    body{padding-left:var(--snw)!important;padding-bottom:0!important}
+    .appbar{margin-left:calc(-1*var(--snw));padding-left:var(--snw)}
+    #pgbar{left:var(--snw)}
+    .pills{display:none}
+    .tabbar{display:none}
+    #fab{bottom:20px;right:20px}
+    .sidenav{position:fixed;left:0;top:0;bottom:0;width:var(--snw);z-index:50;display:flex;flex-direction:column;background:#fff;border-right:1px solid var(--line);overflow:hidden;box-shadow:2px 0 16px rgba(0,0,0,.06)}
+    .sn-head{height:calc(56px + env(safe-area-inset-top));padding:env(safe-area-inset-top) 14px 0;display:flex;align-items:center;gap:9px;border-bottom:1px solid var(--line);flex-shrink:0;background:rgba(255,255,255,.92);backdrop-filter:blur(20px)}
+    .sn-head .mk{background:var(--grad);color:#fff;font-family:var(--fd);font-weight:800;font-size:12px;letter-spacing:.5px;padding:5px 8px;border-radius:8px;line-height:1;flex-shrink:0}
+    .sn-head .nm{font-family:var(--fd);font-weight:800;font-size:12px;color:#111;line-height:1.25}
+    .sn-head .nm small{display:block;font-size:8.5px;font-weight:600;letter-spacing:2px;color:var(--muted);margin-top:1px;font-style:normal}
+    .sn-body{flex:1;overflow-y:auto;padding:8px 6px 20px;scrollbar-width:thin}
+    .sn-sec{padding:10px 10px 3px;font-size:9.5px;font-weight:800;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase}
+    .sn-item{display:flex;align-items:center;gap:9px;padding:8px 10px;margin-bottom:1px;border-radius:10px;font-size:12.5px;font-weight:600;color:#444;cursor:pointer;transition:background .13s,color .13s;text-decoration:none;white-space:nowrap;overflow:hidden}
+    .sn-item:hover{background:var(--soft);color:#111}
+    .sn-item.on{background:#fef2f2;color:#cc0000;font-weight:700}
+    .sn-item .sic{font-size:14px;width:20px;text-align:center;flex-shrink:0}
+    .sn-sep{height:1px;background:var(--line);margin:6px 8px}
+    .sn-date{padding:10px 10px 6px;font-size:10px;font-weight:700;color:var(--muted)}
+  }
 </style>
 </head>
 <body>
@@ -190,7 +222,9 @@
       <button class="iconbtn" id="langBtn">🌐 <span id="langLabel">PT</span></button>
       <button class="iconbtn solid" id="shareTop">Compartilhar</button>
     </div>
-  </div></header>
+  </div><div id="pgbar"></div></header>
+
+  <nav class="sidenav" id="sidenav"></nav>
 
   <div class="pills"><div class="scroller" id="pills"></div></div>
 
@@ -321,6 +355,7 @@ function render(){
   var bm=document.getElementById('breakingMove');
   if(bm)bm.innerHTML=D.sections.slice(0,5).map(function(s){var it=s.items[0];return it?'<a href="'+it.url+'" target="_blank" rel="noopener">'+s.title[LANG].toUpperCase()+' — '+it.t[LANG]+'</a>':'';}).join('');
   document.querySelectorAll('#langs button').forEach(function(b){b.classList.toggle('on',b.dataset.l===LANG);});
+  buildSideNav();setupIO();updScroll();
 }
 function shareContent(title,url){
   var data={title:'ALEX NEWS TODAY',text:title||'ALEX NEWS TODAY',url:url||location.href};
@@ -354,11 +389,79 @@ document.addEventListener('click',function(e){
   if(e.target.id==='backdrop'){closeSheet();return;}
   if(e.target.id==='installBtn'){doInstall();return;}
   if(e.target.id==='installX'){var ib=document.getElementById('installBanner');if(ib)ib.classList.remove('show');return;}
+  if(e.target.id==='fab'){window.scrollTo({top:0,behavior:'smooth'});return;}
+  var sni=e.target.closest&&e.target.closest('.sn-item');
+  if(sni){e.preventDefault();var sgo=sni.getAttribute('data-go');
+    if(!sgo){window.scrollTo({top:0,behavior:'smooth'});}
+    else{var sel=document.getElementById(sgo);if(sel&&sel.scrollIntoView)sel.scrollIntoView({behavior:'smooth',block:'start'});}
+    document.querySelectorAll('.sn-item').forEach(function(a){a.classList.toggle('on',a===sni);});
+    return;}
 });
 var deferredPrompt=null;
 window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;var ib=document.getElementById('installBanner');if(ib)ib.classList.add('show');});
 function doInstall(){var ib=document.getElementById('installBanner');if(ib)ib.classList.remove('show');if(deferredPrompt){deferredPrompt.prompt();deferredPrompt=null;}}
 function clocks(){document.querySelectorAll('[data-tz]').forEach(function(el){try{el.textContent=new Intl.DateTimeFormat('pt-BR',{hour:'2-digit',minute:'2-digit',timeZone:el.dataset.tz}).format(new Date());}catch(e){}});}
+/* ── UX 2026: progress · FAB · sidenav · observer · keyboard ── */
+function updScroll(){
+  var s=window.scrollY||0;
+  var tot=Math.max(1,(document.documentElement.scrollHeight||document.body.scrollHeight)-window.innerHeight);
+  var pb=document.getElementById('pgbar');if(pb)pb.style.width=Math.min(100,s/tot*100)+'%';
+  var fab=document.getElementById('fab');if(fab)fab.classList.toggle('show',s>350);
+}
+window.addEventListener('scroll',updScroll,{passive:true});
+function buildSideNav(){
+  var sn=document.getElementById('sidenav');if(!sn)return;
+  var u=UI[LANG],h=[];
+  h.push('<div class="sn-head"><div class="mk">ANT</div><div class="nm">ALEX NEWS<small>TODAY</small></div></div>');
+  h.push('<div class="sn-body">');
+  h.push('<div class="sn-date">📅 '+((D&&D.date)||'')+'</div>');
+  h.push('<a class="sn-item" data-go="" href="#"><span class="sic">🏠</span>Início</a>');
+  if(D&&D.sections&&D.sections.length){
+    h.push('<div class="sn-sec">Notícias</div>');
+    D.sections.forEach(function(s){h.push('<a class="sn-item" data-go="'+s.key+'" href="#"><span class="sic">'+s.icon+'</span>'+s.title[LANG]+'</a>');});
+  }
+  h.push('<div class="sn-sep"></div><div class="sn-sec">Ferramentas</div>');
+  [{id:'busca',ic:'🔎',l:'Buscar'},{id:'mercados',ic:'📈',l:u.mercados},{id:'bolsa',ic:'📊',l:'Bolsa & Cripto'},{id:'parceiros',ic:'🤝',l:'Parceiros'},{id:'musica',ic:'🎵',l:'Música'},{id:'cams',ic:'📷',l:u.cams},{id:'fontes',ic:'📰',l:u.sources}].forEach(function(it){
+    h.push('<a class="sn-item" data-go="'+it.id+'" href="#"><span class="sic">'+it.ic+'</span>'+it.l+'</a>');
+  });
+  h.push('</div>');
+  sn.innerHTML=h.join('');
+}
+var _io=null;
+function setupIO(){
+  if(_io){_io.disconnect();_io=null;}
+  var ids=((D&&D.sections)||[]).map(function(s){return s.key;});
+  ['busca','mercados','bolsa','parceiros','musica','cams','fontes'].forEach(function(id){if(document.getElementById(id))ids.push(id);});
+  if(!ids.length)return;
+  _io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(!en.isIntersecting)return;
+      var id=en.target.id;
+      document.querySelectorAll('#pills .pill').forEach(function(p){
+        var m=p.getAttribute('data-go')===id;
+        p.classList.toggle('on',m);
+        if(m)try{p.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});}catch(er){}
+      });
+      document.querySelectorAll('.sn-item').forEach(function(a){a.classList.toggle('on',a.getAttribute('data-go')===id);});
+    });
+  },{rootMargin:'-110px 0px -48% 0px',threshold:0});
+  ids.forEach(function(id){var el=document.getElementById(id);if(el)_io.observe(el);});
+}
+/* Navegação por teclado: seta esquerda/direita entre seções */
+(function(){
+  var allIds=[];
+  function getIds(){if(D&&D.sections)allIds=D.sections.map(function(s){return s.key;});return allIds;}
+  document.addEventListener('keydown',function(e){
+    if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
+    var ids=getIds();if(!ids.length)return;
+    var cur=-1;
+    ids.forEach(function(id,i){var el=document.getElementById(id);if(el){var r=el.getBoundingClientRect();if(r.top<=160)cur=i;}});
+    var nxt=-1;
+    if(e.key==='ArrowRight'||e.key==='ArrowDown')nxt=Math.min(ids.length-1,cur+1);
+    else if(e.key==='ArrowLeft'||e.key==='ArrowUp')nxt=Math.max(0,cur-1);
+    if(nxt>=0&&nxt!==cur){var t=document.getElementById(ids[nxt]);if(t)t.scrollIntoView({behavior:'smooth',block:'start'});}
+  });
+})();
 render();clocks();setInterval(clocks,1000*20);
 !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
 function tvWidget(hostId,src,cfg){var host=document.getElementById(hostId);if(!host)return;var s=document.createElement('script');s.type='text/javascript';s.async=true;s.src=src;s.text=JSON.stringify(cfg);host.appendChild(s);}
@@ -374,6 +477,7 @@ tvWidget('tvMarket','https://s3.tradingview.com/external-embedding/embed-widget-
 tvWidget('tvBtc','https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js',{symbol:'BINANCE:BTCUSDT',width:'100%',colorTheme:'light',isTransparent:false,locale:'br'});
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
 </script>
+<button id="fab" aria-label="Voltar ao topo">↑</button>
 <div id="toast" style="position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--tabh) + env(safe-area-inset-bottom) + 16px);z-index:60;background:#0c0c0e;color:#fff;font-size:13px;font-weight:600;padding:10px 16px;border-radius:12px;opacity:0;transition:opacity .25s;pointer-events:none"></div>
 <script src="data.js"></script>
 <script>if(window.ANT_DATA){D=window.ANT_DATA;render();clocks();}</script>
