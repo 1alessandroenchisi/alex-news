@@ -213,6 +213,11 @@
     .sn-sep{height:1px;background:var(--line);margin:6px 8px}
     .sn-date{padding:10px 10px 6px;font-size:10px;font-weight:700;color:var(--muted)}
   }
+  .dunecta{display:block;margin:14px 0 4px;padding:20px 18px;border-radius:16px;color:#fff;text-decoration:none;background:linear-gradient(120deg,rgba(0,95,130,.82),rgba(0,0,0,.82)),url('https://i.ytimg.com/vi/rss7ronqYls/hqdefault.jpg') center/cover}
+  .dunecta span{display:block}.dunecta .dk{font-size:11px;letter-spacing:.6px;text-transform:uppercase;opacity:.85}
+  .dunecta .dh{font-family:var(--fd);font-size:20px;font-weight:800;margin:6px 0}.dunecta .dp{font-size:14px;line-height:1.45;opacity:.92}
+  .dunecta .db{display:inline-block;margin-top:12px;background:#fff;color:#005f82;font-weight:800;font-size:14px;padding:10px 14px;border-radius:999px}
+  .dunecta .ds{font-size:12px;margin-top:10px;opacity:.85}
   /* WhatsApp FAB */
   #wabtn{position:fixed;right:16px;bottom:calc(var(--tabh) + env(safe-area-inset-bottom) + 70px);z-index:44;width:54px;height:54px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(37,211,102,.55);transition:transform .2s var(--ease);text-decoration:none;border:none}
   #wabtn:active{transform:scale(.88)}
@@ -280,10 +285,11 @@
 
     <h2 class="secttl" id="parceiros"><span class="bar"></span> 🤝 Parceiros</h2>
     <div class="banners">
-      <a class="bnr" href="https://www.vivadune.com.br" target="_blank" rel="noopener"><div class="bg2" style="background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&q=70')"></div><div class="ov2" style="background:linear-gradient(120deg,rgba(0,95,130,.55),rgba(0,0,0,.78))"></div><div class="ct"><div class="k">Empreendimento</div><div class="h">Viva Dune</div><span class="cta">Conheça →</span></div></a>
+      <a class="bnr" href="https://www.dunebeachville.com.br/" target="_blank" rel="noopener"><div class="bg2" style="background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&q=70')"></div><div class="ov2" style="background:linear-gradient(120deg,rgba(0,95,130,.55),rgba(0,0,0,.78))"></div><div class="ct"><div class="k">Lotes · São Miguel do Gostoso</div><div class="h">Dune Beach &amp; Ville</div><span class="cta">Conheça os lotes →</span></div></a>
       <a class="bnr" href="https://alessandroenchisi.remax.com.br/" target="_blank" rel="noopener"><div class="bg2" style="background-image:url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=700&q=70')"></div><div class="ov2" style="background:linear-gradient(120deg,rgba(0,45,120,.55),rgba(0,0,0,.78))"></div><div class="ct"><div class="k">Imóveis · RE/MAX</div><div class="h">Alessandro Enchisi</div><span class="cta">Buscar imóveis →</span></div></a>
       <a class="bnr" href="https://www.tribunadonorte.com.br/" target="_blank" rel="noopener"><div class="bg2" style="background-image:url('https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=700&q=70')"></div><div class="ov2" style="background:linear-gradient(120deg,rgba(20,20,25,.5),rgba(0,0,0,.82))"></div><div class="ct"><div class="k">Notícias RN · grátis</div><div class="h">Tribuna do Norte</div><span class="cta">Ler →</span></div></a>
-      <a class="bnr" id="igBanner" href="https://www.instagram.com/dunebeachville/" target="_blank" rel="noopener"><div class="bg2" style="background-image:url('https://images.unsplash.com/photo-1611262588024-d12430b98920?w=700&q=70')"></div><div class="ov2" style="background:linear-gradient(120deg,rgba(214,41,118,.62),rgba(150,47,191,.7),rgba(0,0,0,.55))"></div><div class="ct"><div class="k">Social</div><div class="h">@dunebeachville</div><span class="cta">Seguir →</span></div></a>
+      <a class="bnr" id="igBanner" href="https://www.instagram.com/dunegostoso/" target="_blank" rel="noopener"><div class="bg2" style="background-image:url('https://images.unsplash.com/photo-1611262588024-d12430b98920?w=700&q=70')"></div><div class="ov2" style="background:linear-gradient(120deg,rgba(214,41,118,.62),rgba(150,47,191,.7),rgba(0,0,0,.55))"></div><div class="ct"><div class="k">Instagram</div><div class="h">@dunegostoso</div><span class="cta">Seguir →</span></div></a>
+      <a class="bnr" href="https://www.youtube.com/@DuneBeachVille" target="_blank" rel="noopener"><div class="bg2" style="background-image:url('https://i.ytimg.com/vi/rss7ronqYls/hqdefault.jpg')"></div><div class="ov2" style="background:linear-gradient(120deg,rgba(204,0,0,.6),rgba(0,0,0,.78))"></div><div class="ct"><div class="k">YouTube</div><div class="h">Dune Beach &amp; Ville</div><span class="cta">Assistir →</span></div></a>
     </div>
 
     <h2 class="secttl" id="bolsa"><span class="bar"></span> 📊 Bolsa &amp; Cripto</h2>
@@ -330,8 +336,9 @@
     <div class="searchbar" style="margin-left:0;margin-right:0">
       <form id="gForm"><input id="gq" type="search" placeholder="Buscar no Google..." aria-label="Buscar no Google"><button type="submit">Buscar</button></form>
       <div class="qchips" style="margin-top:10px">
-        <button class="qchip dune" data-url="https://www.vivadune.com.br">🏖️ Viva Dune</button>
-        <button class="qchip" data-url="https://www.instagram.com/dunebeachville/">📸 Instagram Dune</button>
+        <button class="qchip dune" data-url="https://www.dunebeachville.com.br/">🏖️ Dune Beach &amp; Ville</button>
+        <button class="qchip" data-url="https://www.instagram.com/dunegostoso/">📸 @dunegostoso</button>
+        <button class="qchip" data-url="https://www.youtube.com/@DuneBeachVille">▶ YouTube Dune</button>
         <button class="qchip" data-url="https://alessandroenchisi.remax.com.br/">🏠 RE/MAX Alessandro</button>
         <button class="qchip" data-url="https://www.tribunadonorte.com.br/">📰 Tribuna do Norte</button>
         <button class="qchip" data-q="imóveis de alto padrão Natal RN">Imóveis Natal</button>
@@ -372,6 +379,15 @@ var UI = {
 };
 var SRC=["InfoMoney","Money Times","Bloomberg Línea","ANSA","Today.it","NBC News","E! News","Leo Dias","SERHANT","Robb Report","BuildFastWithAI","Later"];
 var SRC_URL={"InfoMoney":"https://www.infomoney.com.br/","Money Times":"https://www.moneytimes.com.br/","Bloomberg Línea":"https://www.bloomberglinea.com.br/","ANSA":"https://www.ansa.it/","Today.it":"https://www.today.it/","NBC News":"https://www.nbcnews.com/","E! News":"https://www.eonline.com/news","Leo Dias":"https://portalleodias.com/","SERHANT":"https://serhant.com/","Robb Report":"https://robbreport.com/","BuildFastWithAI":"https://www.buildfastwithai.com/","Later":"https://later.com/blog/instagram-reels-trends/"};
+var DUNE_CTA={
+  pt:{k:'São Miguel do Gostoso · RN',h:'Seu lote pé na areia no Dune Beach & Ville',p:'Condomínio de lotes em São Miguel do Gostoso, um dos destinos que mais crescem no litoral potiguar.',b:'Conheça os lotes'},
+  it:{k:'São Miguel do Gostoso · RN',h:'Il tuo lotto sulla spiaggia al Dune Beach & Ville',p:'Condominio di lotti a São Miguel do Gostoso, una delle mete in più rapida crescita della costa del Rio Grande do Norte.',b:'Scopri i lotti'},
+  en:{k:'São Miguel do Gostoso · RN',h:'Your beachfront lot at Dune Beach & Ville',p:'A gated lot community in São Miguel do Gostoso, one of the fastest-growing destinations on Brazil’s Rio Grande do Norte coast.',b:'See the lots'},
+  fr:{k:'São Miguel do Gostoso · RN',h:'Votre terrain les pieds dans le sable au Dune Beach & Ville',p:'Résidence de terrains à São Miguel do Gostoso, l’une des destinations en plus forte croissance du littoral du Rio Grande do Norte.',b:'Découvrir les terrains'},
+  de:{k:'São Miguel do Gostoso · RN',h:'Ihr Grundstück direkt am Strand im Dune Beach & Ville',p:'Grundstücksanlage in São Miguel do Gostoso, einem der am schnellsten wachsenden Reiseziele an der Küste von Rio Grande do Norte.',b:'Grundstücke ansehen'},
+  es:{k:'São Miguel do Gostoso · RN',h:'Tu lote frente al mar en Dune Beach & Ville',p:'Condominio de lotes en São Miguel do Gostoso, uno de los destinos que más crecen en la costa de Rio Grande do Norte.',b:'Conoce los lotes'}
+};
+function duneCTA(){var c=DUNE_CTA[LANG]||DUNE_CTA.pt;return '<a class="dunecta" href="https://www.dunebeachville.com.br/" target="_blank" rel="noopener"><span class="dk">'+c.k+'</span><span class="dh">'+c.h+'</span><span class="dp">'+c.p+'</span><span class="db">'+c.b+' → www.dunebeachville.com.br</span><span class="ds">▶ YouTube Dune Beach &amp; Ville · 📸 @dunegostoso</span></a>';}
 var LANG='pt'; try{var sv=localStorage.getItem('ant_lang'); if(sv)LANG=sv;}catch(e){}
 var D = window.ANT_DATA || {date:'',sections:[],hero:{t:{},s:{}},quote:{}};
 var SHAREIC='<span class="shareBtn" data-share="1"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="2.4"/><circle cx="6" cy="12" r="2.4"/><circle cx="18" cy="19" r="2.4"/><path d="M8.4 13.3l7.2 4.2M15.6 6.5l-7.2 4.2"/></svg></span>';
@@ -401,7 +417,7 @@ function render(){
     '<div class="src">'+(D.hero.src||'')+' · '+u.open+' ↗</div></div>';}
   var nw=document.getElementById('news');
   if(nw)nw.innerHTML=D.sections.map(function(s){
-    return '<h2 class="secttl" id="'+s.key+'"><span class="bar"></span> '+s.icon+' '+s.title[LANG]+'</h2><div class="cards">'+s.items.map(cardHTML).join('')+'</div>';
+    return '<h2 class="secttl" id="'+s.key+'"><span class="bar"></span> '+s.icon+' '+s.title[LANG]+'</h2><div class="cards">'+s.items.map(cardHTML).join('')+'</div>'+(s.key==='gostoso'?duneCTA():'');
   }).join('');
   var sl=document.getElementById('sourcesLinks');
   if(sl)sl.innerHTML=SRC.map(function(n){return '<a href="'+(SRC_URL[n]||'#')+'" target="_blank" rel="noopener">'+n+'</a>';}).join('');
@@ -557,6 +573,7 @@ function loadANSA(){
 }
 /* ── Drone Video Player ── */
 var DRONE_VIDS=[
+  {id:'rss7ronqYls',label:'🏖️ Dune Beach & Ville'},
   {id:'_DJb5HjeDkQ',label:'🌍 Megacidades 4K'},
   {id:'WHNNHAoaZD4',label:'🇫🇷 Paris'},
   {id:'yk8Ii4zQwmo',label:'🇦🇪 Dubai'},
@@ -598,7 +615,7 @@ tvWidget('tvBtc','https://s3.tradingview.com/external-embedding/embed-widget-sin
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
 /* Força abertura no navegador do sistema para links externos em modo PWA */
 (function(){
-  var ext=['vivadune.com.br','instagram.com','tribunadonorte.com.br','remax.com.br'];
+  var ext=['dunebeachville.com.br','instagram.com','youtube.com','tribunadonorte.com.br','remax.com.br'];
   document.addEventListener('click',function(e){
     var a=e.target.closest('a[href]');
     if(!a)return;
